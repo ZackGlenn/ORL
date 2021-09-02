@@ -1,0 +1,85 @@
+Header,Parameter 1,Parameter 2,Parameter 3,Parameter 4,Parameter 5,// CT-File Parameters
+CtFileName,,,,,,// Name or full path of CT file to be matched
+CtFileSize,70,101,51,,,"// Dimensions (X,Y,Z) of CtFileName [ignored if CT file is TIFF]"
+CtFileVoxelSpacing,,,,,,"// Voxel spacing (X,Y,Z) in mm; THIS PARAMETER IS REQUIRED"
+CtFileStretchFactor,1,1,1,,,"// Tri-linear stretch factor (X,Y,Z); Rarely used"
+CtStartingPosition,50,-50,50,,,"// Optional starting position (mm) for CT object CoG; Default (50,-50,50)"
+CtStartingOrientation,0,0,0,,,"// Optional starting orientation (deg) for CT object; Default (0,0,0)"
+CtSamplingInterval,0.5,,,,,// Spacing of ray-cast samples during projection (in mm)
+CtSobelMixFraction,3,,,,,// MatchImage = BaseImage + SoubleMixFraction * SobelOperator(BaseImage)
+,,,,,,
+Header,Bead #,CT X-coord,CT Y-coord,CT Z-coord,,// Definition of marker beads and anatomical landmarks
+CtMarkerBead,1,,,,,"// (X,Y,Z) location of marker in CT-voxel coordinates."
+CtMarkerBead,2,,,,,"// (X,Y,Z) location of marker in CT-voxel coordinates."
+CtMarkerBead,3,,,,,"// (X,Y,Z) location of marker in CT-voxel coordinates."
+CtMarkerBead,4,,,,,"// (X,Y,Z) location of marker in CT-voxel coordinates."
+,,,,,,
+Header,Parameter 1,Parameter 2,Parameter 3,Parameter 4,Parameter 5,// Parameters for the Red fluoroscope camera
+RedMovieFileName,,,,,,// Name or full path of Red fluoroscope file [must precede RedCalibrationImage] 
+RedMovieFileSize,512,512,537,,,"// Dimensions (X,Y,Z) of RedMovieFileName [ignored if file is TIFF]"
+RedDetectorSize,512,512,,,,"// Obsolete parameter equal to (X,Y) of RedMovieFileSize [ignored on input]"
+RedPixelSize,0.55,,,,,// Size of pixels in mm; Assumed to be square! [ignored if pixel size is specified in TIFF]
+RedCalibrationImage,..\..\..\1_Cines_Dist_Corr\Calb_C1.tif,,,,,"// Name or full path of Red calibration file; Size is (X,Y) of RedMovieFileSize [must follow RedMovieFileSize]"
+RedSourceToDetector,,,,,,// Source-to-detector distance (mm) for Red system
+RedCentralSpotOnScreen,255.5,255.5,,,,// Initial guess for location of Red 'central spot' [obsolete parameter; ignored]
+MtwVertexColumnOrder,..\..\..\MtwVertexColumnOrder.csv,,,,,// Pathname for the calibration set-up file (must precede RedVertexColumnOrder & RedCalibrationBeads)
+RedCalibrationBeads,CAMERA1,..\..\..\2_Calibration\C1\EVa_Format_Raw.trc,,,,// Phantom bead 3D definition code; Phantom bead 2D identification file
+RedCtBrightness,-28,,,,,// Brightness adjustment for CT in Red view (usually set by the dialog box)
+RedCtContrast,0.389045,,,,,// Contrast adjustment for CT in Red view (usually set by the dialog box)
+RedFluoroBrightness,-77,,,,,// Brightness adjustment for fluoroscope in Red view (usually set by the dialog box)
+RedFluoroContrast,1,,,,,// Contrast adjustment for fluoroscope in Red view (usually set by the dialog box)
+RedSobelMixFraction,2,,,,,// Sobel mix fraction for the Red fluoroscope (see 'CtSobelMixFraction' above)
+RedCorrelationBias,0.3,,,,,// Add this value to the Red-view correlation to avoid negative numbers
+,,,,,,
+Header,Parameter 1,Parameter 2,Parameter 3,Parameter 4,Parameter 5,// Parameters for the Green fluoroscope camera
+GreenMovieFileName,,,,,,// Name or full path of Green fluoroscope file [must precede GreenCalibrationImage]
+GreenMovieFileSize,512,512,537,,,"// Dimensions (X,Y,Z) of GreenMovieFileName [ignored if file is TIFF]"
+GreenDetectorSize,512,512,,,,"// Obsolete parameter equal to (X,Y) of GreenMovieFileSize [ignored on input]"
+GreenPixelSize,0.55,,,,,// Size of pixels in mm; Assumed to be square! [ignored if pixel size is specified in TIFF]
+GreenCalibrationImage,..\..\..\1_Cines_Dist_Corr\Calb_C2.tif,,,,,"// Name or full path of Green calibration file; Size is (X,Y) of GreenMovieFileSize [must follow GreenMovieFileName]"
+GreenSourceToDetector,,,,,,// Source-to-detector distance (mm) for Green system
+GreenCentralSpotOnScreen,255.5,255.5,,,,// Initial guess for location of Green 'central spot' [obsolete parameter; ignored]
+GreenCalibrationBeads,CAMERA2,..\..\..\2_Calibration\C2\EVa_Format_Raw.trc,,,,// Phantom bead 3D definition code; Phantom bead 2D identification file
+GreenCtBrightness,-28,,,,,// Brightness adjustment for CT in Green view (usually set by the dialog box)
+GreenCtContrast,0.389045,,,,,// Contrast adjustment for CT in Green view (usually set by the dialog box)
+GreenFluoroBrightness,-77,,,,,// Brightness adjustment for fluoroscope in Green view (usually set by the dialog box)
+GreenFluoroContrast,1,,,,,// Contrast adjustment for fluoroscope in Green view (usually set by the dialog box)
+GreenSobelMixFraction,2,,,,,// Sobel mix fraction for the Green fluoroscope (see 'CtSobelMixFraction' above)
+GreenCorrelationBias,0.3,,,,,// Add this value to the Green-view correlation to avoid negative numbers
+,,,,,,
+Header,Column 0,Column 1,Column 2,// Definition of 3x3 convolution kernel for smoothing images,,
+ConvolutionKernel,4,4,4,// Row 0 of convolution kernel,,
+ConvolutionKernel,4,4,4,// Row 1 of convolution kernel,,
+ConvolutionKernel,4,4,4,// Row 2 of convolution kernel,,
+,,,,,,
+Header,Minimum,Maximum,// Define ranges for 3D scrollbar controls,,,
+XscrollbarLimits,-200,100,// Min and max settings (mm) for X-translation scrollbar,,,
+YscrollbarLimits,-100,200,// Min and max settings (mm) for Y-translation scrollbar,,,
+ZscrollbarLimits,-300,50,// Min and max settings (mm) for Z-translation scrollbar,,,
+RollScrollbarLimits,-90,270,// Min and max settings (deg) for 'Roll' scrollbar,,,
+PitchScrollbarLimits,-90,90,// Min and max settings (deg) for 'Pitch' scrollbar,,,
+YawScrollbarLimits,-160,200,// Min and max settings (deg) for 'Yaw' scrollbar,,,
+,,,,,,
+Header,Parameter,"// Search-control parameters for 2d, Yaw & DHS",,,,
+Red2dSearchLatitude_LR,5,// Search +/- this number of mm in the Left-Right coordinate of the Red 2D view,,,,
+Red2dSearchLatitude_DU,5,// Search +/- this number of mm in the Down-Up coordinate of the Red 2D view,,,,
+Red2dSearchLatitude_Roll,5,// Search +/- this number of degrees in the 'Roll' coordinate of the Red 2D view,,,,
+Green2dSearchLatitude_LR,5,// Search +/- this number of mm in the Left-Right coordinate of the Green 2D view,,,,
+Green2dSearchLatitude_DU,5,// Search +/- this number of mm in the Down-Up coordinate of the Green 2D view,,,,
+Green2dSearchLatitude_Roll,5,// Search +/- this number of degrees in the 'Roll' coordinate of the Green 2D view,,,,
+YawSearchLatitude,5,// Search +/- this number of degrees in the 'Yaw' coordinate of both 2D views,,,,
+DhsSearchIterationLimit,20,// Maximum total number of iterations allowed in DHS,,,,
+DhsNumberOfSmallMovesToConverge,5,// Maximum number of 'small moves' allowed in DHS,,,,
+DhsSmallMoveMagnitude,0.2,// A DHS 'small move' is defined as this number of mm or degs,,,,
+,,,,,,
+Header,MPI Node #,Hostname,// Definition of MPI cluster environment. (NOTE: MtwTesla ignores this section.),,,
+MpiNodeCount,0,,"// Total number of MPI nodes, including the workstation",,,
+,,,,,,
+Header,Parameter,// Miscellaneous parameter values,,,,
+BeadCorrelationRadius,9,// Calibration-bead radius to use for initial correlation search,,,,
+BeadCentroidRadius,4,// Calibration-bead radius to use for final centroid calculation [This parameter is obsolete],,,,
+DrrClippingPercentage,0,// Clip the DRR value over this percentage of the total DRR area (0 to 100),,,,
+FastPassSamplingInterval,2,"// FastPass mode samples the CT DRR at this interval in both X and Y, then interpolates in 2D",,,,
+FluoroscopeFrameRate,200,// Rate of fluoroscope acquisition (frames / second),,,,
+ButterworthCutoffFrequency,10,// Cut-off frequency of the low-pass filter applied to output (Hz),,,,
+ExcelPath,C:\Program Files (x86)\Microsoft Office\Office14\EXCEL.EXE,// Pathname for the Excel executable file on this workstation,,,,

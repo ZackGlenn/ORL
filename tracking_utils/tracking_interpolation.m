@@ -99,8 +99,8 @@ clear
 addpath(pwd)
 
 % choose the solution to interpolate, and determine the name of the output file
-data_filename = uigetfile;
-output_filename = "_interpolated_" + data_filename";
+data_filename = uigetfile('.csv');
+output_filename = "_interpolated_" + data_filename;
 
 % perform cubic interpolation on the provided data
 output_table = interpolate_tracking(data_filename);

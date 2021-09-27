@@ -38,7 +38,7 @@
 %
 %   c) Copy the interpolated solution to the MTW_Solutions folder for the trial. After
 % restarting MTWTesla the interpolated should appear at the top of the solutions
-% dropdown menu. You can treat interpolated solution file like any other solution.
+% dropdown menu. You can treat the interpolated solution file like any other solution.
 
 % Notes:
 % ------

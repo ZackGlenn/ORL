@@ -26,8 +26,10 @@
 
 % Usage:
 % ------
-%   a) Copy the solution to interpolate to the folder containing this script. Rename it
-% [Bone].csv (e.g. Scapula.csv or Hybrid.csv).
+%   a) If necessary, copy this script to the folder containing the trial of interest,
+% (e.g. H001_M_R_64\Tracking\4_Markerless_tracking\H001_ERa90_t01\). Copy the solution
+% to interpolate, containing tracked solutions for approximately every fifth frame, to
+% the same folder, and rename it [Bone].csv (e.g. Scapula.csv or Hybrid.csv).
 %
 %   b) Open the script in matlab, and run it in the directory containing the script -
 % this should be the default location matlab opens to. Select [Bone].csv in the dialog

@@ -7,8 +7,12 @@
 % Inputs:
 % -------
 % 1) The solution file to interpolate. Should be a csv file in the format
-% produced automatically by mtwtesla. Provide the path to the file as a
-% character vector.
+% produced automatically by mtwtesla. Select the file in the dialog box that opens.
+%
+% This script preserves all of the existing solutions from the input file, and
+% interpolates wherever there are gaps between solutions. This means it won't overwrite
+% any of the existing work, and that it will not interpolate past the bounds of the
+% existing work.
 %
 % 2) The name of the file to output to, which must be a csv file. Provide
 % the output filename as a characer vector.
@@ -78,10 +82,11 @@
 % clear MATLAB's workspace to avoid potential problems with pre-existing
 % variables
 clear
+addpath(pwd)
 
 % choose the solution to interpolate, and determine the name of the output file
 data_filename = uigetfile;
-output_filename = "_" + data_filename + "_interpolated";
+output_filename = "_interpolated_" + data_filename";
 
 % perform cubic interpolation on the provided data
 output_table = interpolate_tracking(data_filename);
@@ -95,14 +100,12 @@ function out = interpolate_tracking(datafile)
     % read the input file, separating it into numeric fields and text fields
     [tracked_data, txt] = xlsread(datafile);
 
-    % extract the tracked frames, the corresponding solutions, and the column
-    % headers
+    % extract the tracked frames, the corresponding solutions, and the column headers
     tracked_frames = tracked_data(:, 1);
     tracked_soln = tracked_data(:, 2:10);
     column_names = txt(1, 1:12);
 
-    % determine the frames which need interpolated solutions and perform the
-    % interpolation
+    % determine the frames which need interpolated solutions and perform interpolation
     interp_frames = tracked_frames(1):tracked_frames(end);
     interp_soln = interp1(tracked_frames, tracked_soln, interp_frames, 'pchip');
 

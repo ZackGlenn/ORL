@@ -79,10 +79,9 @@
 % variables
 clear
 
-% ask the user for the name of the solution file to interpolate and the
-% name of the file to output to
-data_filename = input('Enter the name of the data file ');
-output_filename = input('Enter the name for the output file ');
+% choose the solution to interpolate, and determine the name of the output file
+data_filename = uigetfile;
+output_filename = "_" + data_filename + "_interpolated";
 
 % perform cubic interpolation on the provided data
 output_table = interpolate_tracking(data_filename);

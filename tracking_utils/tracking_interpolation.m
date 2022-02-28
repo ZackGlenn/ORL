@@ -2,7 +2,7 @@
 
 % Script for using cubic interpolation on tracking solutions
 % Created 8/30/21 by Zachary Glenn
-% Last modified 8/30/21 by Zachary Glenn
+% Last modified 2/28/22 by Zachary Glenn
 
 % Inputs:
 % -------
@@ -37,11 +37,14 @@
 % capture using the data you provide it. Always check to make sure that the
 % interpolated solution accurately reflects the data seen in tracking.
 %
-% Additionally, Euler angles (i.e. the roll, pitch, and yaw values) cannot
-% be interpolated in general. The interpolation will only work correctly if
-% the solution is not too close to being singular - this is usually the
-% case, but it isn't always. Again, you must manually confirm that the
-% interpolation accurately reflects what you see in tracking.
+% In order to interpolate the rotation values, they are converted to a quaternion. This 
+% avoids certain pitfalls with interpolating euler angles directly. I assumed the roll, 
+% pitch, and yaw values produced by tesla correspond to rotations about the X, Y, and Z 
+% axes respectively. This appears correct judging by the way models are manipulated in 
+% tesla, but I cannot guarantee it's correctness. Additionally, it is possible that 
+% tesla's left-handed coordinate system breaks some assumption made by MATLAB's 
+% quaternion code. Here I have assumed that the internal consistency of this script 
+% (euler angles in, and euler angles out) mitigates any such problem.
 %
 % 2) The MtwTesla solution file
 % ------------------------------
@@ -102,14 +105,35 @@ function out = interpolate_tracking(datafile)
     tracked_soln = tracked_data(:, 2:10);
     column_names = txt(1, 1:12);
 
-    % determine the frames which need interpolated solutions and perform the
-    % interpolation
+    % determine the frames which need interpolation
     interp_frames = tracked_frames(1):tracked_frames(end);
-    interp_soln = interp1(tracked_frames, tracked_soln, interp_frames, 'pchip');
+
+    % separate the position, rotation, and correlation data so the rotation data can be 
+    % handled separately
+    tracked_pos = tracked_soln(:, 1:3);
+    tracked_rot = tracked_soln(:, 4:6);
+    tracked_cor = tracked_soln(:, 7:9);
+
+    % convert the roll, pitch, and yaw values to quaternions so the interpolation will 
+    % be correct
+    tracked_quat = eul2quat(tracked_rot, "XYZ");
+
+    % perform interpolation
+    interp_pos = interp1(tracked_frames, tracked_pos, interp_frames, 'pchip');
+    interp_quat = interp1(tracked_frames, tracked_quat, interp_frames, 'pchip');
+    interp_cor = interp1(tracked_frames, tracked_cor, interp_frames, 'pchip');
+
+    % convert the rotation back into roll, pitch, and yaw
+    interp_rot = quat2eul(interp_quat, "XYZ");
+
+    % collect the interpolated data into a single matrix
+    interp_soln = [interp_pos, interp_rot, interp_cor];
 
     % create an vector of -1's to fill the Interations and RunMsec columns
     flags = -ones(size(interp_frames))';
 
     % return a table representing the completed output file
-    out = array2table([interp_frames' interp_soln flags flags], 'VariableNames', column_names);
+    out = array2table(...
+        [interp_frames' interp_soln flags flags], 'VariableNames', column_names ...
+    );
 end
